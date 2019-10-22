@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -21,26 +22,34 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $shortDescription;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotNull()
      */
     private $insertDate;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="article")
+     * @Assert\Count(
+     *      min = "1",
+     *      minMessage = "You have to select at least 1 category"
+     * )
      */
     private $categories;
 
