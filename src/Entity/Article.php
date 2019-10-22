@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -39,7 +40,7 @@ class Article
     private $insertDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\category", inversedBy="pictureFilename")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="article")
      */
     private $categories;
 
@@ -120,7 +121,7 @@ class Article
         return $this->categories;
     }
 
-    public function addCategory(category $category): self
+    public function addCategory(Category $category): self
     {
         if (!$this->categories->contains($category)) {
             $this->categories[] = $category;
@@ -129,7 +130,7 @@ class Article
         return $this;
     }
 
-    public function removeCategory(category $category): self
+    public function removeCategory(Category $category): self
     {
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
