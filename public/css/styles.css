@@ -6,3 +6,22 @@ body {
 }
 
 html {height:100%}
+
+.custom-file-label {
+    opacity: 0;
+}
+
+.custom-file-input {
+    opacity: 1;
+    margin-left: 2rem;
+}
+
+.navbar{
+    justify-content: left;
+}
+
+.navbar a{
+    justify-content: left;
+    margin-left: 60px;
+    margin-right: 0px;
+}

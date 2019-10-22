@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleFormType;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,13 +33,21 @@ class ArticleController extends AbstractController
     /**
      * @Route("/admin/article/add")
      */
-    public function add(EntityManagerInterface $em, Request $request )
+    public function add(EntityManagerInterface $em, Request $request, FileUploader $fileUploader )
     {
         $form = $this->createForm(ArticleFormType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
+            $article = $form->getData();
+            $brochureFile = $form['picture']->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $article->setPictureFilename($brochureFileName);
+            }
+
             $this->addFlash('success', 'Article was created!');
-            $em->persist($form->getData());
+            $em->persist($article);
             $em->flush();
             return $this->redirectToRoute('app_article_home');
         }
@@ -72,14 +81,22 @@ class ArticleController extends AbstractController
     /**
      * @Route("/admin/article/edit/{id}")
      */
-    public function edit(EntityManagerInterface $em, Request $request, Article $article)
+    public function edit(EntityManagerInterface $em, Request $request, Article $article, FileUploader $fileUploader)
     {
 
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
+            $article = $form->getData();
+            $brochureFile = $form['picture']->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $article->setPictureFilename($brochureFileName);
+            }
+
             $this->addFlash('success', 'Article was edited!');
-            $em->persist($form->getData());
+            $em->persist($article);
             $em->flush();
             return $this->redirectToRoute('app_article_home');
         }

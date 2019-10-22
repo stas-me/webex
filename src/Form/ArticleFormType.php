@@ -3,6 +3,8 @@ namespace App\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,16 +36,17 @@ class ArticleFormType extends AbstractType
                 'label' => 'Category',
                 //'placeholder' => 'Choose product',
             ])
-            ->add('insertDate', null, [
+            ->add('insertDate', DateTimeType::class , [
 //                'label' => 'News text ',
+                'widget' => 'single_text'
             ])
-            ->add('brochure', FileType::class, [
-                'label' => 'Brochure (PDF file)',
+            ->add('picture', FileType::class, [
+                'label' => 'Image',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
 
-                // make it optional so you don't have to re-upload the PDF file
+                // make it optional so you don't have to re-upload the image
                 // everytime you edit the Product details
                 'required' => false,
 
@@ -53,12 +56,18 @@ class ArticleFormType extends AbstractType
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
+                                "image/png",
+                                "image/jpeg",
+                                "image/jpg",
+                                "image/gif",
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Please upload an image',
                     ])
                 ],
+
+                'attr' => array(
+                    'accept' => '.png,.jpeg,.jpg,.png'
+                )
             ]);
     }
 
