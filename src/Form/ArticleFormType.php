@@ -40,7 +40,7 @@ class ArticleFormType extends AbstractType
                 'widget' => 'single_text',
                 'empty_data' => null,
                 'attr' => array(
-                    'value' => date('Y-m-d\TH:i')
+                    'value' => isset($options['data']) ? $options['data']->getInsertDate()->format('Y-m-d\TH:i') : date('Y-m-d\TH:i')
                 )
             ])
             ->add('picture', FileType::class, [
