@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Form\ArticleFormType;
+use App\Form\CommentFormType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -125,22 +126,24 @@ class ArticleController extends AbstractController
         }
 //        dd($article);
 
-//        $form = $this->createForm(ArticleFormType::class, $article);
-//        $form->handleRequest($request);
-//        if($form->isSubmitted() && $form->isValid()){
-//
-//            $article = $form->getData();
-//
-//            $this->addFlash('success', 'Article was edited!');
-//            $em->persist($article);
-//            $em->flush();
-//            return $this->redirectToRoute('app_article_home');
-//        }
+        $form = $this->createForm(CommentFormType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            $comment = $form->getData();
+            $comment->setArticle($article);
+
+            $this->addFlash('success', 'Comment has been added!');
+            $em->persist($comment);
+            $em->flush();
+            return $this->redirectToRoute('view_article', ['id' => $id]);
+        }
 
         return $this->render('Article/show.html.twig', [
 //            'articleForm' => $form->createView(),
             'article' => $article,
-            'categories' => $categories
+            'categories' => $categories,
+            'commentForm' => $form->createView(),
         ]);
     }
 }

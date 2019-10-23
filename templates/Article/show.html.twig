@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <div class="card mb-4">
+    <div class="card my-4">
         {#<img alt="Card image cap" class="card-img-top" src="http://placehold.it/750x300">#}
         {% if article.pictureFilename %}
             <img alt="Card image cap" class="card-img-top" src="{{ asset( fileDir ~ article.pictureFilename ) }}">
@@ -17,11 +17,36 @@
             Posted on {{ article.dateForArticle }} <br>
             Category: {% for category in article.categories %} <a class="badge badge-secondary" href="{{ path('view_category', {'id' : category.id}) }}">{{ category.name }}</a> {% endfor %}
         </div>
+    </div>
 
+    <h3>Comments ({{ article.comments|length }})</h3>
 
+    <div class="media comment-box">
+        {% for comment in article.comments %}
+            <div class="media-left">
+                <a href="#">
+                    <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ comment.name }}</h4>
+                <p>{{ comment.text|nl2br }}</p>
 
+            </div>
+        {% endfor %}
+    </div>
 
+    <div class="card">
+        <div class="card-body">
 
+            {{ form_start(commentForm) }}
+
+            {{ form_widget(commentForm) }}
+
+            <button type="submit" class="btn btn-primary" formnovalidate> Add comment </button>
+            {{ form_end(commentForm) }}
+
+        </div>
     </div>
 
 {% endblock %}

@@ -89,4 +89,9 @@ class Comment
 
         return $this;
     }
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 }
