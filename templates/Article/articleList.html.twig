@@ -1,0 +1,23 @@
+
+{% for article in articles %}
+    <!-- Blog Post -->
+    <div class="card mb-4">
+        {#<img alt="Card image cap" class="card-img-top" src="http://placehold.it/750x300">#}
+        {% if article.pictureFilename %}
+            <img alt="Card image cap" class="card-img-top" src="{{ asset( fileDir ~ article.pictureFilename ) }}">
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title">{{ article.title }}</h2>
+            <p class="card-text">{{ article.shortDescription }}</p>
+            <a class="btn btn-primary" href="{{ path('app_article_edit', {'id' : article.id}) }}">Read More &rarr;</a>
+        </div>
+        <div class="card-footer text-muted">
+            Posted on {{ article.dateForArticle }}
+        </div>
+    </div>
+{% else %}
+    <h1>
+        No articles in this category!
+    </h1>
+{% endfor %}
+

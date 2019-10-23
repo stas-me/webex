@@ -23,6 +23,16 @@ class ArticleRepository extends ServiceEntityRepository
         dd( $this->createQueryBuilder('aa')->getQuery()->getResult() );
     }
 
+    public function getQBfindByCategory( $category ){
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.categories', 'c')
+            ->andWhere('c.id = '.$category->getId())
+            ->andWhere('a.insertDate < :currentDate')
+            ->setParameter('currentDate', date('Y-m-d H:i:s', time()));
+//            ->getQuery()
+//            ->getResult();
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

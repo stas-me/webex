@@ -7,7 +7,7 @@
                 <ul class="list-unstyled mb-0">
                     {% for category in categories %}
                     <li>
-                        <a href="{{ path('app_category_edit', {'id' : category.id}) }}">{{ category.name }} </a>
+                        <a href="{{ path('view_category', {'id' : category.id}) }}">{{ category.name }} </a>
                     </li>
                     {% if (categories|length/2)|round(0, 'ceil') == loop.index %}
                 </ul>

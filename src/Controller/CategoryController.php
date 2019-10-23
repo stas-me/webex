@@ -5,9 +5,11 @@ namespace App\Controller;
 
 
 
+use App\Entity\Article;
 use App\Entity\Category;
 use App\Form\CategoryFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -86,6 +88,39 @@ class CategoryController extends AbstractController
 
         return $this->render('Admin/Category/edit.html.twig', [
             'categoryForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/category/{id}", name="view_category")
+     */
+    public function viewCategory(EntityManagerInterface $em, $id, Request $request, PaginatorInterface $paginator  )
+    {
+
+        $categoryRepo = $em->getRepository(Category::class);
+        $category = $categoryRepo->find($id);
+
+        if( !$category ){
+            $this->addFlash('error', 'Category does not exist!');
+            return $this->redirectToRoute('app_home_home');
+        }
+
+        $articleRepo = $em->getRepository(Article::class);
+        $articlesQB = $articleRepo->getQBfindByCategory( $category );
+
+        $categories = $categoryRepo->findAll();
+
+        $articles = $paginator->paginate(
+            $articlesQB,
+            $request->query->getInt('page', 1),
+            2
+        );
+//        dump($articles);
+//        dd($category);
+
+        return $this->render('Category/show.html.twig', [
+            'categories' => $categories,
+            'articles' => $articles
         ]);
     }
 }

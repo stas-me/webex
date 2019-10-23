@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ include('Article/articleList.html.twig', {
+        'articles' : articles
+    }) }}
+    {{ knp_pagination_render(articles) }}
+{% endblock %}

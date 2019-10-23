@@ -23,6 +23,22 @@
 
         <div class="row">
 
+            {% for msg in app.session.flashBag.get('success') %}
+                <div class="col-12">
+                    <div class="alert alert-success">
+                        {{ msg }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% for msg in app.session.flashBag.get('error') %}
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        {{ msg }}
+                    </div>
+                </div>
+            {% endfor %}
+
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
