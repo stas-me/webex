@@ -4,7 +4,7 @@
     <div class="card mb-4">
         {#<img alt="Card image cap" class="card-img-top" src="http://placehold.it/750x300">#}
         {% if article.pictureFilename %}
-            <img alt="Card image cap" class="card-img-top" src="{{ asset( fileDir ~ article.pictureFilename ) }}">
+            <img alt="Card image cap" class="card-img-top" src="{{ asset( fileDir ~ article.pictureFilename ) | imagine_filter('small_thumb')}}">
         {% endif %}
         <div class="card-body">
             <h2 class="card-title">{{ article.title }}</h2>

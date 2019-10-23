@@ -17,6 +17,7 @@
         "symfony/orm-pack": "^1.0",
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "4.3.*",
+        "symfony/web-server-bundle": "4.3.*",
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
