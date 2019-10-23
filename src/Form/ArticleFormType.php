@@ -39,6 +39,9 @@ class ArticleFormType extends AbstractType
 //                'label' => 'News text ',
                 'widget' => 'single_text',
                 'empty_data' => null,
+                'attr' => array(
+                    'value' => date('Y-m-d\TH:i')
+                )
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
