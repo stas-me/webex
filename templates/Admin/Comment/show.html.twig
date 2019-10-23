@@ -1,0 +1,33 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-12">
+        <h3>{{ article.title }} comments</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Text</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for comment in article.comments %}
+                    <tr>
+                        <td>{{ comment.name }}</td>
+                        <td>{{ comment.text|nl2br }}</td>
+                        <td>
+                            <span class="btn btn-primary btn-action" onclick="ConfirmDelete('{{ path('delete_comment', {'commentId' : comment.id, 'articleId' : article.id}) }}', 'Are you sure you want to delete this comment?')"> Delete </span>
+                        </td>
+                    </tr>
+                {% else %}
+                    <td colspan="8" class="text-center">
+                        No comments found!
+                    </td>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

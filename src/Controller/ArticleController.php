@@ -23,7 +23,7 @@ class ArticleController extends AbstractController
     public function home(EntityManagerInterface $em )
     {
         $repo = $em->getRepository(Article::class);
-        $articles = $repo->findAll();
+        $articles = $repo->findAllPlusComments();
 
 
         return $this->render('Admin/Article/show.html.twig', [
@@ -62,7 +62,7 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/admin/article/delete/{id}")
+     * @Route("/admin/article/{id}/delete")
      */
     public function delete($id){
         $em = $this->getDoctrine()->getManager();
@@ -81,7 +81,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/admin/article/edit/{id}")
+     * @Route("/admin/article/{id}/edit")
      */
     public function edit(EntityManagerInterface $em, Request $request, Article $article, FileUploader $fileUploader)
     {

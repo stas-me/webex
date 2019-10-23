@@ -21,6 +21,9 @@
                         <td>
                             <a href="{{ path('app_article_edit', {'id' : article.id}) }}" class="btn btn-primary btn-action edit-url"> Edit </a>
                             <span class="btn btn-primary btn-action" onclick="ConfirmDelete('{{ path('app_article_delete', {'id' : article.id}) }}', 'Are you sure you want to delete this article?')"> Delete </span>
+                            {% if article.comments|length > 0 %}
+                                <a href="{{ path('manage_comments', {'id' : article.id}) }}" class="btn btn-primary btn-action"> Manage comments ({{ article.comments|length }}) </a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
