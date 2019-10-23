@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
@@ -17,10 +18,6 @@ class ArticleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Article::class);
-    }
-
-    public function get3ArticlesQueryBuilder(){
-        dd( $this->createQueryBuilder('aa')->getQuery()->getResult() );
     }
 
     public function findAllPlusComments(){
@@ -40,6 +37,17 @@ class ArticleRepository extends ServiceEntityRepository
             ->orderBy('a.insertDate', 'DESC');
 //            ->getQuery()
 //            ->getResult();
+    }
+    public function getLast3ByCategory( $category ){
+        return new ArrayCollection( $this->createQueryBuilder('a')
+            ->innerJoin('a.categories', 'c')
+            ->andWhere('c.id = '.$category->getId())
+            ->andWhere('a.insertDate < :currentDate')
+            ->setParameter('currentDate', date('Y-m-d H:i:s', time()))
+            ->orderBy('a.insertDate', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult());
     }
 
     // /**

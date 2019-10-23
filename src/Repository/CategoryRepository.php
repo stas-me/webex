@@ -22,15 +22,18 @@ class CategoryRepository extends ServiceEntityRepository
 
     public function getCategoriesAndArticles()
     {
-//        $articleRepo = $this->getEntityManager()->getRepository(Article::class);
-//        dd( $articleRepo->get3ArticlesQueryBuilder() );
-        return $this->createQueryBuilder('c')
-            ->innerJoin('c.article', 'a')
-            ->addSelect('a')
-            ->andWhere('a.insertDate < :currentDate')
-            ->setParameter('currentDate', date('Y-m-d H:i:s', time()))
+        $articleRepo = $this->getEntityManager()->getRepository(Article::class);
+        $cats = $this->createQueryBuilder('c')
             ->getQuery()
             ->getResult();
+        // I'm sure there is a way to wrap everything up in one query but that is beyond my SQL knowledge. I have spent more than an hour googling with no luck. This is usually the case I go ask some advice from more experienced people.
+        foreach ($cats as $cat) {
+//            $cat->emptyArticle();
+            $cat->setArticleData( $articleRepo->getLast3ByCategory($cat) );
+        }
+//        dd($cats);
+
+        return $cats;
     }
 
 

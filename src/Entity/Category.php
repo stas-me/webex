@@ -80,6 +80,19 @@ class Category
         return $this;
     }
 
+    public function emptyArticle(): self
+    {
+        $this->article = [];
+
+        return $this;
+    }
+    public function setArticleData(ArrayCollection $article): self
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->getName();
