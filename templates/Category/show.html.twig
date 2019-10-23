@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} {{ category.name }} news {% endblock %}
+
+{% block pageTitle %} {{ category.name }} news {% endblock %}
+
 {% block body %}
 
     {{ include('Article/articleList.html.twig', {
