@@ -1,6 +1,9 @@
+{% extends 'base.html.twig' %}
 
-{% for article in articles %}
-    <!-- Blog Post -->
+{% block title %} {{ article.title }} news {% endblock %}
+
+{% block body %}
+
     <div class="card mb-4">
         {#<img alt="Card image cap" class="card-img-top" src="http://placehold.it/750x300">#}
         {% if article.pictureFilename %}
@@ -8,16 +11,17 @@
         {% endif %}
         <div class="card-body">
             <h2 class="card-title">{{ article.title }}</h2>
-            <p class="card-text">{{ article.shortDescription|nl2br }}</p>
-            <a class="btn btn-primary" href="{{ path('view_article', {'id' : article.id}) }}">Read More &rarr;</a>
+            <p class="card-text">{{ article.content|nl2br }}</p>
         </div>
         <div class="card-footer text-muted">
-            Posted on {{ article.dateForArticle }}
+            Posted on {{ article.dateForArticle }} <br>
+            Category: {% for category in article.categories %} <a class="badge badge-secondary" href="{{ path('view_category', {'id' : category.id}) }}">{{ category.name }}</a> {% endfor %}
         </div>
-    </div>
-{% else %}
-    <h1>
-        No articles in this category!
-    </h1>
-{% endfor %}
 
+
+
+
+
+    </div>
+
+{% endblock %}

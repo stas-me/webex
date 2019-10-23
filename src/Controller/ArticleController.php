@@ -6,6 +6,7 @@ namespace App\Controller;
 
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Form\ArticleFormType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -103,6 +104,43 @@ class ArticleController extends AbstractController
 
         return $this->render('Admin/Article/edit.html.twig', [
             'articleForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/article/{id}", name="view_article")
+     */
+    public function viewArticle(EntityManagerInterface $em, $id, Request $request )
+    {
+
+        $categoryRepo = $em->getRepository(Category::class);
+        $categories = $categoryRepo->findAll();
+
+        $articleRepo = $em->getRepository(Article::class);
+        $article = $articleRepo->find($id);
+
+        if( !$article ){
+            $this->addFlash('error', 'Article does not exist!');
+            return $this->redirectToRoute('app_home_home');
+        }
+//        dd($article);
+
+//        $form = $this->createForm(ArticleFormType::class, $article);
+//        $form->handleRequest($request);
+//        if($form->isSubmitted() && $form->isValid()){
+//
+//            $article = $form->getData();
+//
+//            $this->addFlash('success', 'Article was edited!');
+//            $em->persist($article);
+//            $em->flush();
+//            return $this->redirectToRoute('app_article_home');
+//        }
+
+        return $this->render('Article/show.html.twig', [
+//            'articleForm' => $form->createView(),
+            'article' => $article,
+            'categories' => $categories
         ]);
     }
 }

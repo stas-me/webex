@@ -28,7 +28,8 @@ class ArticleRepository extends ServiceEntityRepository
             ->innerJoin('a.categories', 'c')
             ->andWhere('c.id = '.$category->getId())
             ->andWhere('a.insertDate < :currentDate')
-            ->setParameter('currentDate', date('Y-m-d H:i:s', time()));
+            ->setParameter('currentDate', date('Y-m-d H:i:s', time()))
+            ->orderBy('a.insertDate', 'DESC');
 //            ->getQuery()
 //            ->getResult();
     }

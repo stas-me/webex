@@ -2,9 +2,11 @@
 
 {% block title %} {{ category.name }} news {% endblock %}
 
-{% block pageTitle %} {{ category.name }} news {% endblock %}
-
 {% block body %}
+
+    <h1 class="my-4">
+        {{ category.name }}
+    </h1>
 
     {{ include('Article/articleList.html.twig', {
         'articles' : articles
