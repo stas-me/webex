@@ -5,7 +5,10 @@ body {
     padding-bottom: 80px;
 }
 
-html {height:100%}
+html {
+    height:100%;
+    padding-top: 56px;
+}
 
 .custom-file-label {
     opacity: 0;

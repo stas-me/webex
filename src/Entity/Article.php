@@ -190,4 +190,9 @@ class Article
 
         return $this;
     }
+
+    public function getDateForArticle(): string
+    {
+        return $this->insertDate->format('Y-m-d H:i');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -18,6 +19,21 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
+
+    public function getCategoriesAndArticles()
+    {
+//        $articleRepo = $this->getEntityManager()->getRepository(Article::class);
+//        dd( $articleRepo->get3ArticlesQueryBuilder() );
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.article', 'a')
+            ->addSelect('a')
+            ->andWhere('a.insertDate < :currentDate')
+            ->setParameter('currentDate', date('Y-m-d H:i:s', time()))
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
     // /**
     //  * @return Category[] Returns an array of Category objects
