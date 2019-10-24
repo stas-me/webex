@@ -22,12 +22,17 @@ class HomeController extends AbstractController
         $repo = $em->getRepository(Category::class);
         $categories = $repo->getCategoriesAndArticles();
 
-//        dd($categories);
-
-
         return $this->render('show.html.twig', [
             'categories' => $categories
         ]);
+    }
+
+    /**
+     * @Route("/admin")
+     */
+    public function admin()
+    {
+        return $this->redirectToRoute('app_article_home');
     }
 
 }
