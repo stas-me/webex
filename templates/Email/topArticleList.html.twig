@@ -1,0 +1,5 @@
+<h3> List of top articles of the last week </h3>
+
+{% for article in articles %}
+    <a href="{{ path('view_article', {'id' : article.id}) }}"> {{ article.title }} </a> <span style="margin-left: 8px;">{{ article.views }} View(s)</span> <br>
+{% endfor %}

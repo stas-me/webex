@@ -64,6 +64,19 @@ class ArticleRepository extends ServiceEntityRepository
         $p = $q->execute();
     }
 
+    public function getTopViewedForLastWeek()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.insertDate < :currentDate')
+            ->setParameter('currentDate', date('Y-m-d H:i:s', time()))
+            ->andWhere('a.insertDate > :dateWeekAgo')
+            ->setParameter('dateWeekAgo', date('Y-m-d', strtotime('-7 days')))
+            ->orderBy('a.views', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */
