@@ -25,6 +25,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->leftJoin('a.comments', 'c')
             ->addSelect('c')
+            ->orderBy('a.insertDate', 'DESC')
             ->getQuery()
             ->getResult();
     }
