@@ -63,6 +63,11 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $views = 0;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -194,5 +199,17 @@ class Article
     public function getDateForArticle(): string
     {
         return $this->insertDate->format('Y-m-d H:i');
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
+
+        return $this;
     }
 }

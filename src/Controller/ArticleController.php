@@ -124,6 +124,8 @@ class ArticleController extends AbstractController
             $this->addFlash('error', 'Article does not exist!');
             return $this->redirectToRoute('app_home_home');
         }
+
+        $articleRepo->increaseViews($article);
 //        dd($article);
 
         $form = $this->createForm(CommentFormType::class);

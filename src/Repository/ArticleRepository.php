@@ -20,7 +20,8 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findAllPlusComments(){
+    public function findAllPlusComments()
+    {
         return $this->createQueryBuilder('a')
             ->leftJoin('a.comments', 'c')
             ->addSelect('c')
@@ -28,17 +29,18 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getQBfindByCategory( $category ){
+    public function getQBfindByCategory( $category )
+    {
         return $this->createQueryBuilder('a')
             ->innerJoin('a.categories', 'c')
             ->andWhere('c.id = '.$category->getId())
             ->andWhere('a.insertDate < :currentDate')
             ->setParameter('currentDate', date('Y-m-d H:i:s', time()))
             ->orderBy('a.insertDate', 'DESC');
-//            ->getQuery()
-//            ->getResult();
     }
-    public function getLast3ByCategory( $category ){
+
+    public function getLast3ByCategory( $category )
+    {
         return new ArrayCollection( $this->createQueryBuilder('a')
             ->innerJoin('a.categories', 'c')
             ->andWhere('c.id = '.$category->getId())
@@ -48,6 +50,18 @@ class ArticleRepository extends ServiceEntityRepository
             ->setMaxResults(3)
             ->getQuery()
             ->getResult());
+    }
+
+    public function increaseViews( $article )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $q = $qb->update('App\Entity\Article', 'a')
+            ->set('a.views', 'a.views + 1')
+            ->where('a.id = ?1')
+            ->setParameter(1, $article->getId())
+            ->getQuery();
+        $p = $q->execute();
     }
 
     // /**
